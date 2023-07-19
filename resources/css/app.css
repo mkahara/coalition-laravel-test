@@ -1,0 +1,14 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+body {
+    font-family: 'Nunito', sans-serif;
+}
+.logo {
+    width: 200px;
+}
+.drag-handle {
+    cursor: move;
+    margin-right: 10px;
+}
