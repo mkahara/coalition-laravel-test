@@ -6,18 +6,18 @@
             <h1 class="uppercase text-2xl font-bold text-primary">Edit Task</h1>
         </div>
 
-        <div class="container bg-white shadow rounded p-5 py-20">
-            <form action="{{ route('task.update', $task) }}" method="POST" class="flex justify-between">
+        <div class="container bg-white shadow rounded p-5 py-10 sm:py-20">
+            <form action="{{ route('task.update', $task) }}" method="POST" class="flex justify-between flex-wrap">
                 @csrf
                 @method('PUT')
-                <div class="form-group">
-                    <label for="name">Task Name</label>
+                <div class="mb-4 flex">
+                    <label for="name" class="mr-2">Task Name</label>
                     <input type="text" name="name" id="name" class="bg-gray-100 px-2 rounded border" value="{{ $task->name }}" required>
                     @error('name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="form-group">
+                <div class="mb-4">
                     <label for="project_id">Project Name</label>
                     <select name="project_id" id="project_id" class="bg-gray-100 px-2 rounded border" required>
                         <option value="">Select a project</option>
@@ -29,7 +29,7 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="form-group">
+                <div class="mb-4">
                     <button type="submit" class="bg-primary rounded text-white px-2">Update</button>
                 </div>
             </form>

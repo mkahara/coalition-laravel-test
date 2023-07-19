@@ -19,27 +19,13 @@
 
 </head>
 <body class="antialiased">
-    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 py-4 sm:pt-4">
-        @if (Route::has('login'))
-            <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                @auth
-                    <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-                @else
-                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
-
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                    @endif
-                @endauth
-            </div>
-        @endif
-
+    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 py-4 px-4 sm:px-0">
             <div class="min-w-full">
 
                 <!-- Header section with logo and nav menu -->
                 <div class="flex justify-between pt-2 sm:pt-0 max-w-4xl mx-auto border-b py-4">
                     <a href="{{ route('tasks.index') }}">
-                        <img src="{{ asset('images/logo.png') }}" class="logo" alt="Coalition Task Manager">
+                        <img src="{{ asset('images/logo.png') }}" class="w-36 sm:w-48" alt="Coalition Task Manager">
                     </a>
                     <nav class="site-menu ui-menu flex items-center">
                         <a href="{{ route('tasks.index') }}" class="hover:text-primary ui-menu-item mr-4 {{ request()->is('/') || request()->is('task/*') ? 'current font-bold text-primary underline' : '' }}">Tasks</a>
@@ -62,13 +48,13 @@
 
                 <!-- Footer section -->
                 <div class="flex justify-center mt-4 sm:items-center sm:justify-between max-w-4xl mx-auto">
-                    <div class="text-center text-sm text-gray-500 sm:text-left">
+                    <div class="text-left  text-sm text-gray-500 sm:text-left">
                         <div class="flex items-center text-primary">
                             Task Manager App
                         </div>
                     </div>
 
-                    <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0 text-primary">
+                    <div class="ml-4 text-left text-sm text-gray-500 sm:text-right sm:ml-0 text-primary">
                         Laravel test for
                         <a href="https://coalitiontechnologies.com" class="ml-1 underline text-gray-500">
                             Coalition Technologies
