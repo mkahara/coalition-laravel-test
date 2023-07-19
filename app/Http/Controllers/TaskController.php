@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\Project;
 use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
@@ -13,11 +14,22 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::orderBy('priority')->get();
+        $projectId = $request->input('project_id');
 
-        return view('tasks.index', compact('tasks'));
+        $tasksQuery = Task::query()->whereHas('project', function ($query) {
+            $query->where('is_deleted', '0');
+        })->where('is_deleted', '0');
+
+        if ($projectId) {
+            $tasksQuery->where('project_id', $projectId);
+        }
+
+        $tasks = $tasksQuery->orderBy('priority')->get();
+        $projects = Project::where('is_deleted', '0')->orderBy('id')->get();
+
+        return view('tasks.index', compact('tasks', 'projects', 'projectId'));
     }
 
     /**
@@ -27,7 +39,10 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return view('tasks.create');
+        $projects = Project::where('is_deleted', '0')
+            ->orderBy('id')->get();
+
+        return view('tasks.create', compact('projects'));
     }
 
     /**
@@ -40,7 +55,6 @@ class TaskController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'priority' => 'required',
             'project_id' => 'required',
         ]);
 
@@ -58,17 +72,6 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  mixed  $task
@@ -76,7 +79,9 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        return view('tasks.edit', compact('task'));
+        $projects = Project::orderBy('id')->get();
+
+        return view('tasks.edit', compact('task', 'projects'));
     }
 
     /**
@@ -88,13 +93,14 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
+        $originalAttributes = $task->getOriginal();
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:tasks',
-            'project_id' => 'required|unique:tasks',
+            'name' => 'required',
+            'project_id' => 'required',
         ]);
 
         if ($validator->fails()) {
-//            return redirect()->route('task.edit')->withErrors($validator)->withInput();
             return redirect()->back()->withErrors(['error' => 'An error occurred while updating the task.']);
         }
 
@@ -102,7 +108,15 @@ class TaskController extends Controller
         $task->project_id = $request->input('project_id');
         $task->save();
 
-        return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
+        $updatedAttributes = $task->getAttributes();
+
+        if ($originalAttributes != $updatedAttributes) {
+            // Row has been updated
+            return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
+        } else {
+            // No changes made to the row
+            return redirect()->back()->with('info', 'No changes made to the task.');
+        }
     }
 
     /**
@@ -113,7 +127,12 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $updatedRows = Task::where('id', $id)->update(['is_deleted' => 1]);
+        if ($updatedRows > 0) {
+            return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
+        } else {
+            return redirect()->route('tasks.index')->withErrors('error', 'Error while deleting task!');
+        }
     }
 
     public function updatePriority(Request $request)

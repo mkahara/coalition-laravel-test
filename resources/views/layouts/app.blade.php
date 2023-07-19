@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
 
     <title>Coalition Task Manager</title>
 
@@ -18,7 +19,7 @@
 
 </head>
 <body class="antialiased">
-    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 py-4 sm:pt-4">
         @if (Route::has('login'))
             <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                 @auth
@@ -33,32 +34,43 @@
             </div>
         @endif
 
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+            <div class="min-w-full">
 
                 <!-- Header section with logo and nav menu -->
-                <div class="flex justify-between pt-8 sm:pt-0">
-                    <img src="{{ asset('images/logo.png') }}" class="logo" alt="Coalition Task Manager">
+                <div class="flex justify-between pt-2 sm:pt-0 max-w-4xl mx-auto border-b py-4">
+                    <a href="{{ route('tasks.index') }}">
+                        <img src="{{ asset('images/logo.png') }}" class="logo" alt="Coalition Task Manager">
+                    </a>
                     <nav class="site-menu ui-menu flex items-center">
-                        <a href="{{ route('tasks.index') }}" class="ui-menu-item mr-4">Tasks</a>
-                        <a href="" class="ui-menu-item">Projects</a>
+                        <a href="{{ route('tasks.index') }}" class="hover:text-primary ui-menu-item mr-4 {{ request()->is('/') || request()->is('task/*') ? 'current font-bold text-primary underline' : '' }}">Tasks</a>
+                        <a href="{{ route('projects.index') }}" class="hover:text-primary ui-menu-item {{ request()->is('project*') || request()->is('project/*') ? 'current font-bold text-primary underline' : '' }}">Projects</a>
                     </nav>
                 </div>
 
                 <!-- Main content section -->
+                @if (session('success'))
+                    <div class="alert alert-success max-w-4xl mx-auto text-center mt-8 bg-secondary text-white rounded font-bold">{{ session('success') }}</div>
+                @else
+                    <div class="alert alert-error max-w-4xl mx-auto text-center mt-8 bg-red-400 text-white rounded font-bold">{{ session('error') }}</div>
+                @endif
                 @yield('content')
                 <!-- End main content section -->
 
+                <!-- Load custom js -->
+                @yield('customjs')
+                <!-- End custom js -->
+
                 <!-- Footer section -->
-                <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
+                <div class="flex justify-center mt-4 sm:items-center sm:justify-between max-w-4xl mx-auto">
                     <div class="text-center text-sm text-gray-500 sm:text-left">
-                        <div class="flex items-center">
+                        <div class="flex items-center text-primary">
                             Task Manager App
                         </div>
                     </div>
 
-                    <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
+                    <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0 text-primary">
                         Laravel test for
-                        <a href="https://coalitiontechnologies.com" class="ml-1 underline">
+                        <a href="https://coalitiontechnologies.com" class="ml-1 underline text-gray-500">
                             Coalition Technologies
                         </a>
                     </div>

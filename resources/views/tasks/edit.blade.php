@@ -1,26 +1,37 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
-        <div class="container">
-            <h1>Edit Task</h1>
+    <div class="mt-8 dark:bg-gray-800 overflow-hidden max-w-4xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="uppercase text-2xl font-bold text-primary">Edit Task</h1>
+        </div>
 
-            <form action="{{ route('task.update', $task) }}" method="POST">
+        <div class="container bg-white shadow rounded p-5 py-20">
+            <form action="{{ route('task.update', $task) }}" method="POST" class="flex justify-between">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
                     <label for="name">Task Name</label>
-                    <input type="text" name="name" id="name" class="form-control" value="{{ $task->name }}" required>
+                    <input type="text" name="name" id="name" class="bg-gray-100 px-2 rounded border" value="{{ $task->name }}" required>
                     @error('name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
-
-                    <input type="text" name="project_id" id="project_id" class="form-control" value="{{ $task->project_id }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="project_id">Project Name</label>
+                    <select name="project_id" id="project_id" class="bg-gray-100 px-2 rounded border" required>
+                        <option value="">Select a project</option>
+                        @foreach ($projects as $project)
+                            <option value="{{ $project->id }}" {{ $project->id == $task->project_id ? 'selected' : '' }}>{{ $project->name }}</option>
+                        @endforeach
+                    </select>
                     @error('project_id')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-                <button type="submit" class="btn btn-primary">Update</button>
+                <div class="form-group">
+                    <button type="submit" class="bg-primary rounded text-white px-2">Update</button>
+                </div>
             </form>
         </div>
     </div>

@@ -6,11 +6,19 @@ module.exports = {
     ],
     darkMode: false, // or 'media' or 'class'
     theme: {
-        extend: {},
+        extend: {
+            backgroundColor: {
+                'primary': '#006aac',
+                'secondary': '#b7da35',
+            },
+            textColor: {
+                'primary': '#006aac',
+                'secondary': '#b7da35',
+            },
+        }
     },
     variants: {
         extend: {},
     },
     plugins: [],
 }
-

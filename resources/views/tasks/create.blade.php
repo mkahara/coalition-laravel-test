@@ -1,19 +1,36 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
-        <div class="container">
-            <h1>Create Manager</h1>
+    <div class="mt-8 dark:bg-gray-800 overflow-hidden max-w-4xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="uppercase text-2xl font-bold text-primary">Create Task</h1>
+        </div>
 
-            <form action="{{ route('task.store') }}" method="POST">
+        <div class="container bg-white shadow rounded p-5 py-20">
+            <form action="{{ route('task.store') }}" method="POST" class="flex justify-between">
                 @csrf
-                <div class="form-group">
-                    <label for="name">Task Name</label>
-                    <input type="text" name="name" id="name" class="form-control" required>
-                    <label for="project_id">Task Name</label>
-                    <input type="text" name="project_id" id="project_id" class="form-control" required>
+                <div class="w-2/5">
+                    <label for="name" class="">Task Name</label>
+                    <input type="text" name="name" id="name" class="bg-gray-100 px-2 rounded border" value="" required>
+                    @error('name')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
-                <button type="submit" class="btn btn-primary">Create</button>
+                <div class="w-2/5">
+                    <label for="project_id">Project Name</label>
+                    <select name="project_id" id="project_id" class="bg-gray-100 px-2 rounded border" required>
+                        <option value="">Select a project</option>
+                        @foreach ($projects as $project)
+                            <option value="{{ $project->id }}">{{ $project->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('project_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="w-1/5">
+                    <button type="submit" class="bg-primary rounded text-white px-2">Submit</button>
+                </div>
             </form>
         </div>
     </div>

@@ -14,40 +14,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery_ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery-ui */ "./node_modules/jquery-ui/ui/widget.js");
 /* harmony import */ var jquery_ui__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery_ui__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var sortablejs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
-// require('./bootstrap');
 
 
 
-var list = document.querySelector('.list-group');
-var sort = new sortablejs__WEBPACK_IMPORTED_MODULE_2__["default"](list, {
-  handle: '.drag-handle',
-  animation: 150,
-  onUpdate: function onUpdate() {
-    var tasks = list.querySelectorAll('.list-group-item');
-    tasks.forEach(function (task, index) {
-      var taskId = task.dataset.taskId;
-      var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-      fetch('/task/priority', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': token
-        },
-        body: JSON.stringify({
-          taskId: taskId,
-          priority: index + 1
-        })
-      }).then(function (response) {
-        if (!response.ok) {
-          throw new Error('Request failed with status ' + response.status);
-        }
-        return response.json();
-      }).then(function (data) {
-        // Handle the response data
-      })["catch"](function (error) {
-        // Handle the error
+
+/*
+Handle the reordering of tasks using Sortablejs, only required on the tasks listing page
+ */
+if (window.location.pathname === '/' && window.location.search === '') {
+  var list = document.querySelector('.list-group');
+  var sort = new sortablejs__WEBPACK_IMPORTED_MODULE_2__["default"](list, {
+    handle: '.drag-handle',
+    animation: 150,
+    onUpdate: function onUpdate() {
+      var tasks = list.querySelectorAll('.list-group-item');
+      tasks.forEach(function (task, index) {
+        var taskId = task.dataset.taskId;
+        var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        fetch('/task/priority', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token
+          },
+          body: JSON.stringify({
+            taskId: taskId,
+            priority: index + 1
+          })
+        }).then(function (response) {
+          if (!response.ok) {
+            throw new Error('Request failed with status ' + response.status);
+          }
+          return response.json();
+        }).then(function (data) {
+          // Handle the response data
+        })["catch"](function (error) {
+          // Handle the error
+        });
       });
-    });
+    }
+  });
+}
+
+/*
+Hide alerts after 3 seconds
+ */
+jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
+  var alert = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.alert');
+  if (alert.length > 0) {
+    setTimeout(function () {
+      alert.hide();
+    }, 3000);
   }
 });
 
