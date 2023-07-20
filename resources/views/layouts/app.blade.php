@@ -19,11 +19,11 @@
 
 </head>
 <body class="antialiased">
-    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 py-4 px-4 sm:px-0">
+    <div class="relative flex items-top justify-center min-h-screen bg-gray-100  py-4 px-4 sm:px-0">
             <div class="min-w-full">
 
                 <!-- Header section with logo and nav menu -->
-                <div class="flex justify-between pt-2 sm:pt-0 max-w-4xl mx-auto border-b py-4">
+                <div class="flex justify-between pt-2 sm:pt-0 max-w-5xl mx-auto border-b py-4">
                     <a href="{{ route('tasks.index') }}">
                         <img src="{{ asset('images/logo.png') }}" class="w-36 sm:w-48" alt="Coalition Task Manager">
                     </a>
@@ -47,7 +47,7 @@
                 <!-- End custom js -->
 
                 <!-- Footer section -->
-                <div class="flex justify-center mt-4 sm:items-center sm:justify-between max-w-4xl mx-auto">
+                <div class="flex justify-center mt-4 sm:items-center sm:justify-between max-w-5xl mx-auto">
                     <div class="text-left  text-sm text-gray-500 sm:text-left">
                         <div class="flex items-center text-primary">
                             Task Manager App

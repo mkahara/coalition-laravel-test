@@ -5,15 +5,15 @@
 body {
     font-family: 'Nunito', sans-serif;
 }
-.logo {
-    width: 200px;
-}
+
 .drag-handle {
     cursor: move;
 }
+
 .border-b {
     border-color: #006aac;
 }
+
 .list-group-item:nth-child(even) {
     background: #f3f4f6;
 }

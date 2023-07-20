@@ -22,7 +22,6 @@
     },
     "dependencies": {
         "jquery": "^3.7.0",
-        "jquery-ui": "^1.13.2",
         "sortablejs": "^1.15.0"
     }
 }

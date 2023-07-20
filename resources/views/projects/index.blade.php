@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mt-8 dark:bg-gray-800 overflow-hidden max-w-4xl mx-auto">
+    <div class="mt-8 overflow-hidden max-w-5xl mx-auto">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-left uppercase text-2xl font-bold text-primary sm:w-auto">Projects List</h1>
 
@@ -20,7 +20,7 @@
                     <li class="list-group-item flex items-center py-3 px-2" data-project-id="{{ $project->id }}">
                         <span class="drag-handle mr-4 w-200 text-sm sm:text-base">{{ $count }}</span>
                         <span class="project-name flex-1 flex-1 text-sm sm:text-base">{{ $project->name }}</span>
-                        <div class="float-right flex flex-1 justify-end sm:justify-center items-center flex-wrap flex-col sm:flex-row">
+                        <div class="float-right flex flex-1 justify-end items-center flex-wrap flex-col sm:flex-row">
                             <a href="{{ route('project.edit', $project) }}" class="btn bg-secondary px-3 rounded text-black transform hover:scale-105 transition-all duration-300 ease-in-out w-16 mr-0 sm:mr-4 mb-2 sm:mb-0 text-center text-sm sm:text-base">Edit</a>
                             <form action="{{ route('project.destroy', $project) }}" method="POST" class="">
                                 @csrf

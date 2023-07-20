@@ -18,6 +18,7 @@ class CreateTasksTable extends Migration
             $table->string('name');
             $table->integer('priority')->default(0);
             $table->enum('is_deleted', array('1','0'))->default('0');
+            $table->unsignedBigInteger('project_id')->nullable();
             $table->timestamps();
         });
     }
